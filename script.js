@@ -8,7 +8,7 @@ const getGDPData = async () => {
 
 const w = 800;
 const h = 500;
-const padding = 50;
+const padding = 70;
 const svg = d3
   .select('#chart-container')
   .append('svg')
@@ -60,6 +60,7 @@ getGDPData().then((data) => {
     .append('rect')
     .attr('data-date', (_d, i) => data.data[i][0])
     .attr('data-gdp', (_d, i) => data.data[i][1])
+    .attr('index', (_d, i) => i)
     .attr('stroke', 'white')
     .attr('stroke-width', 0.1)
     .attr('x', (_d, i) => xScale(new Date(data.data[i][0])))
@@ -68,15 +69,14 @@ getGDPData().then((data) => {
     .attr('height', (d) => h - padding - yScale(d[1]))
     .attr('class', 'bar')
     .on('mouseover', (e, d) => {
-      console.log(e);
-      console.log(d);
+      const i = e.target.getAttribute('index');
       tooltip.transition().duration(200).style('opacity', 0.9);
 
       tooltip
-        .html(`${d[0]}<br>${d[1]}`)
+        .html(`${d[0]}<br>$${d[1]}`)
         .attr('data-date', d[0])
-        .style('left', `${e.pageX + 10}px`)
-        .style('top', `${e.pageY - 28}px`);
+        .style('left', `${xScale(new Date(data.data[i][0]))}px`)
+        .style('bottom', `${padding - 15}px`);
     })
     .on('mouseout', () => {
       tooltip.transition().duration(200).style('opacity', 0);
