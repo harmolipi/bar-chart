@@ -1,0 +1,12 @@
+#chart-container {
+  background-color: antiquewhite;
+}
+
+.bar {
+  fill: blue;
+  padding: 1px;
+}
+
+.bar:hover {
+  fill: rgb(138, 161, 180);
+}
