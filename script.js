@@ -15,6 +15,12 @@ const svg = d3
   .attr('width', w)
   .attr('height', h);
 
+let tooltip = d3
+  .select('#chart-container')
+  .append('div')
+  .attr('id', 'tooltip')
+  .style('opacity', 0);
+
 getGDPData().then((data) => {
   console.log(data.data);
 
@@ -60,5 +66,19 @@ getGDPData().then((data) => {
     .attr('y', (d) => yScale(d[1]))
     .attr('width', w / data.data.length)
     .attr('height', (d) => h - padding - yScale(d[1]))
-    .attr('class', 'bar');
+    .attr('class', 'bar')
+    .on('mouseover', (e, d) => {
+      console.log(e);
+      console.log(d);
+      tooltip.transition().duration(200).style('opacity', 0.9);
+
+      tooltip
+        .html(`${d[0]}<br>${d[1]}`)
+        .attr('data-date', d[0])
+        .style('left', `${e.pageX + 10}px`)
+        .style('top', `${e.pageY - 28}px`);
+    })
+    .on('mouseout', () => {
+      tooltip.transition().duration(200).style('opacity', 0);
+    });
 });
