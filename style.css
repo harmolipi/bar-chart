@@ -1,3 +1,7 @@
+body {
+  padding: 10px;
+}
+
 #chart-container {
   background-color: antiquewhite;
 }
@@ -9,4 +13,8 @@
 
 .bar:hover {
   fill: rgb(209, 213, 216);
+}
+
+#tooltip {
+  position: absolute;
 }
