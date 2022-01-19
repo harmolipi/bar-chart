@@ -6,8 +6,6 @@ const getGDPData = async () => {
   return data;
 };
 
-getGDPData().then((data) => console.log(data));
-
 const w = 800;
 const h = 500;
 const padding = 30;
@@ -21,13 +19,12 @@ getGDPData().then((data) => {
   console.log(data.data);
 
   const gdpMax = d3.max(data.data, (d) => d[1]);
+  const dateMin = d3.min(data.data, (d) => new Date(d[0]));
+  const dateMax = d3.max(data.data, (d) => new Date(d[0]));
 
   const xScale = d3
-    .scaleLinear()
-    .domain([
-      d3.min(data.data, (d) => new Date(d[0])),
-      d3.max(data.data, (d) => new Date(d[0])),
-    ])
+    .scaleTime()
+    .domain([dateMin, dateMax])
     .range([padding, w - padding]);
 
   const yScale = d3
@@ -35,17 +32,18 @@ getGDPData().then((data) => {
     .domain([0, gdpMax])
     .range([h - padding, padding]);
 
+  const dateAxis = d3.axisBottom().scale(xScale);
+
   svg
     .selectAll('rect')
     .data(data.data)
     .enter()
     .append('rect')
-    .attr('data-date', (d, i) => data.data[i][0]
-    // .attr('x', (d, i) => xScale(new Date(d[0])))
-    .attr('x', (d, i) => i * (w / data.data.length - 1))
-    .attr('y', (d) => yScale(d[1]))
-    .attr('width', w / data.data.length - 1)
-    // .attr('width', w / 275)
-    .attr('height', (d, i) => h - yScale(d[1]))
+    .attr('data-date', (_d, i) => data.data[i][0])
+    .attr('data-gdp', (_d, i) => data.data[i][1])
+    .attr('x', (_d, i) => xScale(new Date(data.data[i][0])))
+    .attr('y', (d) => yScale(d[1]) - 10)
+    .attr('width', w / data.data.length)
+    .attr('height', (d) => h - yScale(d[1]))
     .attr('class', 'bar');
 });
