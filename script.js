@@ -54,6 +54,8 @@ getGDPData().then((data) => {
     .append('rect')
     .attr('data-date', (_d, i) => data.data[i][0])
     .attr('data-gdp', (_d, i) => data.data[i][1])
+    .attr('stroke', 'white')
+    .attr('stroke-width', 0.1)
     .attr('x', (_d, i) => xScale(new Date(data.data[i][0])))
     .attr('y', (d) => yScale(d[1]))
     .attr('width', w / data.data.length)
