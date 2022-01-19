@@ -8,7 +8,7 @@ const getGDPData = async () => {
 
 const w = 800;
 const h = 500;
-const padding = 30;
+const padding = 50;
 const svg = d3
   .select('#chart-container')
   .append('svg')
@@ -32,7 +32,20 @@ getGDPData().then((data) => {
     .domain([0, gdpMax])
     .range([h - padding, padding]);
 
-  const dateAxis = d3.axisBottom().scale(xScale);
+  const dateAxis = d3.axisBottom(xScale);
+  const gdpAxis = d3.axisLeft(yScale);
+
+  svg
+    .append('g')
+    .attr('id', 'x-axis')
+    .attr('transform', `translate(0, ${h - padding})`)
+    .call(dateAxis);
+
+  svg
+    .append('g')
+    .attr('id', 'y-axis')
+    .attr('transform', `translate(${padding}, 0)`)
+    .call(gdpAxis);
 
   svg
     .selectAll('rect')
@@ -42,8 +55,8 @@ getGDPData().then((data) => {
     .attr('data-date', (_d, i) => data.data[i][0])
     .attr('data-gdp', (_d, i) => data.data[i][1])
     .attr('x', (_d, i) => xScale(new Date(data.data[i][0])))
-    .attr('y', (d) => yScale(d[1]) - 10)
+    .attr('y', (d) => yScale(d[1]))
     .attr('width', w / data.data.length)
-    .attr('height', (d) => h - yScale(d[1]))
+    .attr('height', (d) => h - padding - yScale(d[1]))
     .attr('class', 'bar');
 });
