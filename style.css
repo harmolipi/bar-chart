@@ -3,10 +3,10 @@
 }
 
 .bar {
-  fill: blue;
+  fill: rgb(87, 142, 206);
   padding: 1px;
 }
 
 .bar:hover {
-  fill: rgb(138, 161, 180);
+  fill: rgb(209, 213, 216);
 }
