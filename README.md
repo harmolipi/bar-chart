@@ -2,7 +2,7 @@
 
 Created as part of [freeCodeCamp](https://www.freecodecamp.org) curriculum.
 
-View on [Github](https://github.com/harmolipi/bar-chart).
+View on [Github](https://github.com/harmolipi/d3-bar-chart).
 
 ## Functionality
 
